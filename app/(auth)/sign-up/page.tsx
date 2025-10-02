@@ -8,6 +8,8 @@ import InputField from "@/components/forms/InputField";
 import FooterLink from "@/components/forms/FooterLink";
 import SelectField from "@/components/forms/SelectField";
 import {CountrySelectField} from "@/components/forms/CountrySelectField";
+import {signUpWithEmail} from "@/lib/actions/auth.actions";
+import {toast} from "sonner";
 
 
 
@@ -33,13 +35,15 @@ import {CountrySelectField} from "@/components/forms/CountrySelectField";
 
         const onSubmit = async (data: SignUpFormData) => {
             try {
-               console.log(data);
+                const result = await signUpWithEmail(data);
+                if(result.success) router.push('/');
             } catch (e) {
                 console.error(e);
-
+                toast.error('Sign up failed', {
+                    description: e instanceof Error ? e.message : 'Failed to create an account.'
+                })
             }
         }
-
 
         return (
             <>
